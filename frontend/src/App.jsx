@@ -261,30 +261,6 @@ export default function ProfessionalPortfolio() {
       </div>
 
       <main className="max-w-6xl mx-auto px-6 pb-16 grid gap-10">
-        <section id="skills" className="scroll-mt-24">
-                <div className="flex items-center gap-2 mb-4">
-                  <Wrench className="w-5 h-5 text-gray-700" />
-                  <h2 className="text-2xl font-semibold">Skills</h2>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  {Object.entries(RESUME.skills).map(([group, items]) => (
-                    <Card key={group} className="rounded-2xl">
-                      <CardContent className="p-6">
-                        <h3 className="font-semibold text-gray-900">{group}</h3>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {items.map((x) => (
-                            <span key={x} className="text-sm px-3 py-1 rounded-full bg-gray-100 text-gray-800">
-                              {x}
-                            </span>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </section>
-
 
               <section id="experience" className="scroll-mt-24">
                 <div className="flex items-center gap-2 mb-4">
