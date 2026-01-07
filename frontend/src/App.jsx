@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Github, Linkedin } from "lucide-react";
 
 export default function ProfessionalPortfolio() {
+  const [backendStatus, setBackendStatus] = useState({ state: "loading" });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const res = await fetch("/api/health");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (!cancelled) setBackendStatus({ state: "ok", data });
+      } catch (err) {
+        if (!cancelled) setBackendStatus({ state: "error", error: String(err) });
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 p-6">
       <header className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6 items-center">
@@ -21,6 +42,46 @@ export default function ProfessionalPortfolio() {
           <Button variant="outline"><Linkedin className="w-4 h-4 mr-2"/>LinkedIn</Button>
         </div>
       </header>
+
+      <div className="max-w-5xl mx-auto mt-6">
+        <Card className="rounded-2xl">
+          <CardContent className="p-4 flex items-center justify-between gap-4">
+            <div className="text-sm text-gray-700">
+              <span className="font-semibold">Backend status:</span>{" "}
+              {backendStatus.state === "loading" && (
+                <span className="text-gray-500">Checking…</span>
+              )}
+              {backendStatus.state === "ok" && (
+                <span className="text-green-700">OK</span>
+              )}
+              {backendStatus.state === "error" && (
+                <span className="text-red-700">Offline</span>
+              )}
+            </div>
+
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => window.open("/api/health", "_blank")}
+              >
+                Open /api/health
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => window.open("/api/hello", "_blank")}
+              >
+                Open /api/hello
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {backendStatus.state === "error" && (
+          <p className="mt-2 text-sm text-gray-500">
+            Tip: start the backend with <code className="font-mono">cd backend</code> → <code className="font-mono">npm install</code> → <code className="font-mono">npm run start</code> (it runs on port 4000).
+          </p>
+        )}
+      </div>
 
       <main className="max-w-5xl mx-auto mt-10 grid gap-8">
 
