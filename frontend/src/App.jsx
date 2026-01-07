@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Mail, Github, Linkedin } from "lucide-react";
 
 export default function ProfessionalPortfolio() {
-  const CONTACT_EMAIL = "tilakrathi@example.com";
+  const CONTACT_EMAIL = "iamtilakrathi16@gmail.com";
   const GITHUB_URL = "https://github.com/tilakrathi";
-  const LINKEDIN_URL = "https://www.linkedin.com/in/tilakrathi/";
+  const LINKEDIN_URL = "https://www.linkedin.com/in/tilak-rathi-41b92b328";
 
   const copyEmail = async () => {
     try {
