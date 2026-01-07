@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -115,27 +115,6 @@ export default function ProfessionalPortfolio() {
     }
   };
 
-  const [backendStatus, setBackendStatus] = useState({ state: "loading" });
-
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
-      try {
-        const res = await fetch("/api/health");
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        if (!cancelled) setBackendStatus({ state: "ok", data });
-      } catch (err) {
-        if (!cancelled) setBackendStatus({ state: "error", error: String(err) });
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       <header className="border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-20">
@@ -221,43 +200,51 @@ export default function ProfessionalPortfolio() {
           </div>
         </section>
 
-        <Card className="rounded-2xl">
-          <CardContent className="p-4 flex items-center justify-between gap-4">
-            <div className="text-sm text-gray-700">
-              <span className="font-semibold">Backend status:</span>{" "}
-              {backendStatus.state === "loading" && (
-                <span className="text-gray-500">Checking…</span>
-              )}
-              {backendStatus.state === "ok" && (
-                <span className="text-green-700">OK</span>
-              )}
-              {backendStatus.state === "error" && (
-                <span className="text-red-700">Offline</span>
-              )}
-            </div>
+        <section id="projects" className="pb-10 scroll-mt-24">
+          <div className="flex items-center gap-2 mb-4">
+            <FolderGit2 className="w-5 h-5 text-gray-700" />
+            <h2 className="text-2xl font-semibold">Projects</h2>
+          </div>
 
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => window.open("/api/health", "_blank")}
+          <div className="grid md:grid-cols-3 gap-6">
+            {RESUME.projects.map((p, index) => (
+              <motion.div
+                key={p.title}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
               >
-                Open /api/health
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => window.open("/api/hello", "_blank")}
-              >
-                Open /api/hello
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+                <Card className="rounded-2xl h-full">
+                  <CardContent className="p-6 flex flex-col h-full">
+                    <h3 className="text-lg font-semibold">{p.title}</h3>
+                    <p className="mt-2 text-sm text-gray-600">{p.desc[0]}</p>
 
-        {backendStatus.state === "error" && (
-          <p className="mt-2 text-sm text-gray-500">
-            Tip: start the backend with <code className="font-mono">cd backend</code> → <code className="font-mono">npm install</code> → <code className="font-mono">npm run start</code> (it runs on port 4000).
-          </p>
-        )}
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {p.tags.map((t) => (
+                        <span
+                          key={t}
+                          className="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-800"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="mt-6">
+                      <Button
+                        variant="outline"
+                        onClick={() => window.open(p.github, "_blank", "noopener,noreferrer")}
+                      >
+                        <Github className="w-4 h-4 mr-2" />GitHub
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </section>
       </div>
 
       <main className="max-w-6xl mx-auto px-6 pb-16 grid gap-10">
