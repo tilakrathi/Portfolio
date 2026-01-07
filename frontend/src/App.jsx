@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Mail, Github, Linkedin, GraduationCap, Briefcase, Wrench, FolderGit2, Trophy } from "lucide-react";
+import { Mail, Github, Linkedin, Download, FolderGit2, Briefcase } from "lucide-react";
 
 export default function ProfessionalPortfolio() {
   const CONTACT_EMAIL = "iamtilakrathi16@gmail.com";
@@ -10,11 +10,8 @@ export default function ProfessionalPortfolio() {
   const LINKEDIN_URL = "https://www.linkedin.com/in/tilak-rathi-41b92b328";
 
   const NAV = [
-    { id: "skills", label: "Skills" },
-    { id: "education", label: "Education" },
-    { id: "experience", label: "Experience" },
     { id: "projects", label: "Projects" },
-    { id: "achievements", label: "Achievements" },
+    { id: "experience", label: "Experience" },
     { id: "contact", label: "Contact" },
   ];
 
@@ -28,20 +25,7 @@ export default function ProfessionalPortfolio() {
       Tools: ["Git", "VS Code", "Eclipse", "Flask", "Arduino/ESP32", "scikit-learn"],
       "CS Core": ["DS", "OOP", "OS", "CN"],
     },
-    education: [
-      {
-        title: "B.Tech in Information Technology (Minor: ENTC)",
-        org: "YCCE, Nagpur",
-        period: "2023–2027",
-        extra: "CGPA: 7.83*",
-      },
-      {
-        title: "HSC (State Board)",
-        org: "—",
-        period: "2023",
-        extra: "74.17%",
-      },
-    ],
+    educationOneLine: "B.Tech IT (Minor: ENTC) — YCCE Nagpur (2023–2027) | CGPA: 7.83*",
     experience: [
       {
         title: "Java Programming Intern",
@@ -95,6 +79,8 @@ export default function ProfessionalPortfolio() {
         github: GITHUB_URL,
       },
     ],
+    // Keeping achievements/certifications in code for later reuse,
+    // but not rendering them on the “normal portfolio” homepage.
     achievements: {
       responsibility: [
         "Event Management, Sponsorship & Publicity Co-Head for Techfests (operations, sponsorships, promotions).",
@@ -105,11 +91,7 @@ export default function ProfessionalPortfolio() {
         "Infosys Springboard — HTML5, XML & Algorithms",
         "Swayam — Community Engagement",
       ],
-      hobbies: [
-        "Algorithmic problem-solving",
-        "Mentoring peers",
-        "Chess and puzzles",
-      ],
+      hobbies: ["Algorithmic problem-solving", "Mentoring peers", "Chess and puzzles"],
     },
   };
 
@@ -160,7 +142,7 @@ export default function ProfessionalPortfolio() {
         <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-bold">Tilak Rathi</h1>
-            <p className="text-sm text-gray-600">{RESUME.headline}</p>
+            <p className="text-sm text-gray-600">{RESUME.educationOneLine}</p>
           </div>
 
           <nav className="flex flex-wrap gap-2">
@@ -176,6 +158,12 @@ export default function ProfessionalPortfolio() {
           </nav>
 
           <div className="flex flex-wrap md:justify-end gap-2">
+            <Button
+              variant="outline"
+              onClick={() => window.open("/Tilak_Rathi_Resume.txt", "_blank")}
+            >
+              <Download className="w-4 h-4 mr-2" />Download Resume
+            </Button>
           <Button
             variant="outline"
             onClick={() => window.location.href = `mailto:${CONTACT_EMAIL}?subject=Portfolio%20Contact`}
@@ -204,7 +192,8 @@ export default function ProfessionalPortfolio() {
             <div className="md:col-span-2">
               <h2 className="text-4xl font-bold tracking-tight">Hi, I’m Tilak.</h2>
               <p className="mt-3 text-gray-600 leading-relaxed">
-                {RESUME.headline} I enjoy building clean UIs, ML pipelines, and practical IoT prototypes.
+                I’m a B.Tech IT student who builds web apps, ML models, and practical IoT prototypes. I like clean UI,
+                solid logic, and shipping real projects.
               </p>
 
               <div className="mt-6 flex flex-wrap gap-3">
@@ -213,6 +202,9 @@ export default function ProfessionalPortfolio() {
                 </Button>
                 <Button variant="outline" onClick={copyEmail}>Copy Email</Button>
                 <Button variant="outline" onClick={() => window.open(GITHUB_URL, "_blank", "noopener,noreferrer")}>View GitHub</Button>
+                <Button variant="outline" onClick={() => window.open("/Tilak_Rathi_Resume.txt", "_blank")}>
+                  <Download className="w-4 h-4 mr-2" />Resume
+                </Button>
               </div>
             </div>
 
@@ -269,7 +261,7 @@ export default function ProfessionalPortfolio() {
       </div>
 
       <main className="max-w-6xl mx-auto px-6 pb-16 grid gap-10">
-              <section id="skills" className="scroll-mt-24">
+        <section id="skills" className="scroll-mt-24">
                 <div className="flex items-center gap-2 mb-4">
                   <Wrench className="w-5 h-5 text-gray-700" />
                   <h2 className="text-2xl font-semibold">Skills</h2>
@@ -293,31 +285,6 @@ export default function ProfessionalPortfolio() {
                 </div>
               </section>
 
-              <section id="education" className="scroll-mt-24">
-                <div className="flex items-center gap-2 mb-4">
-                  <GraduationCap className="w-5 h-5 text-gray-700" />
-                  <h2 className="text-2xl font-semibold">Education</h2>
-                </div>
-
-                <div className="grid gap-4">
-                  {RESUME.education.map((e) => (
-                    <Card key={`${e.title}-${e.period}`} className="rounded-2xl">
-                      <CardContent className="p-6">
-                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                          <div>
-                            <h3 className="text-lg font-semibold">{e.title}</h3>
-                            <p className="text-gray-600">{e.org}</p>
-                          </div>
-                          <div className="text-sm text-gray-600">
-                            <span className="font-medium">{e.period}</span>
-                            {e.extra ? <span className="ml-3">{e.extra}</span> : null}
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </section>
 
               <section id="experience" className="scroll-mt-24">
                 <div className="flex items-center gap-2 mb-4">
@@ -344,92 +311,6 @@ export default function ProfessionalPortfolio() {
                       </CardContent>
                     </Card>
                   ))}
-                </div>
-              </section>
-
-              <section id="projects" className="scroll-mt-24">
-                <div className="flex items-center gap-2 mb-4">
-                  <FolderGit2 className="w-5 h-5 text-gray-700" />
-                  <h2 className="text-2xl font-semibold">Academic Projects</h2>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  {RESUME.projects.map((p, index) => (
-                    <motion.div
-                      key={p.title}
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.05 }}
-                    >
-                      <Card className="rounded-2xl h-full">
-                        <CardContent className="p-6 flex flex-col h-full">
-                          <h3 className="text-xl font-semibold">{p.title}</h3>
-                          <div className="mt-3 flex flex-wrap gap-2">
-                            {p.tags.map((t) => (
-                              <span key={t} className="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-800">
-                                {t}
-                              </span>
-                            ))}
-                          </div>
-                          <ul className="mt-4 list-disc pl-5 text-gray-700 space-y-2">
-                            {p.desc.map((d, i) => (
-                              <li key={i}>{d}</li>
-                            ))}
-                          </ul>
-
-                          <div className="mt-6 flex gap-2">
-                            <Button
-                              variant="outline"
-                              onClick={() => window.open(p.github, "_blank", "noopener,noreferrer")}
-                            >
-                              <Github className="w-4 h-4 mr-2" />GitHub
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
-                </div>
-              </section>
-
-              <section id="achievements" className="scroll-mt-24">
-                <div className="flex items-center gap-2 mb-4">
-                  <Trophy className="w-5 h-5 text-gray-700" />
-                  <h2 className="text-2xl font-semibold">Positions & Achievements</h2>
-                </div>
-
-                <div className="grid md:grid-cols-3 gap-6">
-                  <Card className="rounded-2xl">
-                    <CardContent className="p-6">
-                      <h3 className="font-semibold">Position of Responsibility</h3>
-                      <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-2">
-                        {RESUME.achievements.responsibility.map((x, i) => (
-                          <li key={i}>{x}</li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                  <Card className="rounded-2xl">
-                    <CardContent className="p-6">
-                      <h3 className="font-semibold">Certifications</h3>
-                      <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-2">
-                        {RESUME.achievements.certifications.map((x, i) => (
-                          <li key={i}>{x}</li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                  <Card className="rounded-2xl">
-                    <CardContent className="p-6">
-                      <h3 className="font-semibold">Hobbies</h3>
-                      <ul className="mt-3 list-disc pl-5 text-gray-700 space-y-2">
-                        {RESUME.achievements.hobbies.map((x, i) => (
-                          <li key={i}>{x}</li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
                 </div>
               </section>
 

@@ -1,0 +1,9 @@
+Tilak Rathi — Resume
+
+NOTE: Replace this placeholder with your actual PDF.
+
+How to replace:
+1) Export your resume as a PDF
+2) Rename it to: Tilak_Rathi_Resume.pdf
+3) Put it in: frontend/public/
+4) Update the link in the portfolio if you changed the filename
