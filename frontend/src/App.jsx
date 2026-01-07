@@ -5,6 +5,30 @@ import { Button } from "@/components/ui/button";
 import { Mail, Github, Linkedin } from "lucide-react";
 
 export default function ProfessionalPortfolio() {
+  const CONTACT_EMAIL = "tilakrathi@example.com";
+  const GITHUB_URL = "https://github.com/tilakrathi";
+  const LINKEDIN_URL = "https://www.linkedin.com/in/tilakrathi/";
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      alert("Email copied to clipboard");
+    } catch {
+      // Fallback for older browsers / permission denial
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = CONTACT_EMAIL;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        alert("Email copied to clipboard");
+      } catch {
+        alert(`Copy this email: ${CONTACT_EMAIL}`);
+      }
+    }
+  };
+
   const [backendStatus, setBackendStatus] = useState({ state: "loading" });
 
   useEffect(() => {
@@ -37,9 +61,24 @@ export default function ProfessionalPortfolio() {
           </p>
         </div>
         <div className="flex md:justify-end gap-3">
-          <Button variant="outline"><Mail className="w-4 h-4 mr-2"/>Contact</Button>
-          <Button variant="outline"><Github className="w-4 h-4 mr-2"/>GitHub</Button>
-          <Button variant="outline"><Linkedin className="w-4 h-4 mr-2"/>LinkedIn</Button>
+          <Button
+            variant="outline"
+            onClick={() => window.location.href = `mailto:${CONTACT_EMAIL}?subject=Portfolio%20Contact`}
+          >
+            <Mail className="w-4 h-4 mr-2" />Contact
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => window.open(GITHUB_URL, "_blank", "noopener,noreferrer")}
+          >
+            <Github className="w-4 h-4 mr-2" />GitHub
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => window.open(LINKEDIN_URL, "_blank", "noopener,noreferrer")}
+          >
+            <Linkedin className="w-4 h-4 mr-2" />LinkedIn
+          </Button>
         </div>
       </header>
 
@@ -144,7 +183,31 @@ export default function ProfessionalPortfolio() {
               <p className="text-gray-700 mb-4">
                 If you'd like to collaborate or just say hi, feel free to reach out.
               </p>
-              <Button>Send Message</Button>
+              <div className="flex flex-wrap gap-3">
+                <Button
+                  onClick={() => window.location.href = `mailto:${CONTACT_EMAIL}?subject=Portfolio%20Contact`}
+                >
+                  <Mail className="w-4 h-4 mr-2" />Email Me
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => window.open(GITHUB_URL, "_blank", "noopener,noreferrer")}
+                >
+                  <Github className="w-4 h-4 mr-2" />GitHub
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => window.open(LINKEDIN_URL, "_blank", "noopener,noreferrer")}
+                >
+                  <Linkedin className="w-4 h-4 mr-2" />LinkedIn
+                </Button>
+                <Button variant="outline" onClick={copyEmail}>
+                  Copy Email
+                </Button>
+              </div>
+              <p className="text-sm text-gray-500 mt-4">
+                Email: <a className="underline" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              </p>
             </CardContent>
           </Card>
         </section>
